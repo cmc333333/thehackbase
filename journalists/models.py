@@ -4,9 +4,9 @@ from djangotoolbox.fields import ListField
 # Create your models here.
 class Journalist(models.Model):
   first = models.CharField(max_length=200)
-  middle = models.CharField(max_length=200)
+  middle = models.CharField(max_length=200, blank = True)
   last = models.CharField(max_length=200)
-  suffix = models.CharField(max_length=200)
+  suffix = models.CharField(max_length=200, blank = True)
 
   def __unicode__(self):
     return "%s %s" % (self.first, self.last)

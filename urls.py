@@ -9,5 +9,6 @@ urlpatterns = patterns('',
 )
 
 urlpatterns += patterns('journalists.views',
-    ('^journalist/$', 'newJournalist')
+    ('^journalist/$', 'editJournalist'),
+    ('^journalist/(?P<journalist_id>\d+)/$', 'editJournalist')
 )

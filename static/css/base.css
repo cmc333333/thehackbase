@@ -1,0 +1,15 @@
+div#navigation {
+  float: left;
+  width: 15em;
+  margin-right: -15em;
+}
+
+div#content-column {
+  float: left;
+  margin-right: -100%;
+  width: 100%;
+}
+
+div#content-wrapper {
+  margin-left: 15em;
+}

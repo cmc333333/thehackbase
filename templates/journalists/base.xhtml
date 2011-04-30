@@ -9,9 +9,18 @@
     {% block extracss %}{% endblock %}
   </head>
   <body>
-    <div id="content-wrapper">
-      <h1>{% block h1 %}{% endblock %}</h1>
-      <div id="content">{% block content %}{% endblock %}</div>
+    <div id="content-column">
+      <div id="content-wrapper">
+        {% if messages %}
+          <ul class="messages">
+            {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+        <h1>{% block h1 %}{% endblock %}</h1>
+        <div id="content">{% block content %}{% endblock %}</div>
+      </div>
     </div>
     {% block extrajs %}{% endblock %}
     <div id="navigation">
