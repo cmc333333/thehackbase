@@ -6,6 +6,10 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 
+def listJournalists(request):
+  params = {"journalists": Journalist.objects.order_by('normalized_name') }
+  return render_to_response('journalists/list.xhtml', params, context_instance=RequestContext(request))
+
 def editJournalist(request, journalist_id=None):
   if journalist_id:
     instance = get_object_or_404(Journalist, pk=journalist_id)
@@ -18,11 +22,11 @@ def editJournalist(request, journalist_id=None):
     if form.is_valid():
       instance = form.save()
       messages.success(request, "Saved")
-      return HttpResponseRedirect('/journalist/' + str(instance.id))
+      return HttpResponseRedirect('/journalist/view/' + str(instance.id) +'/')
   else:
     form = JournalistForm(instance=instance)
 
-  params = {'title': title, 'form': form}
+  params = {'title': title, 'form': form, 'journalist': instance}
   params.update(csrf(request))
 
-  return render_to_response('journalists/new.xhtml', params, context_instance=RequestContext(request))
+  return render_to_response('journalists/edit.xhtml', params, context_instance=RequestContext(request))

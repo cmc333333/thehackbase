@@ -1,0 +1,15 @@
+{% extends "journalists/content.xhtml" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+{% if journalist.id %}
+<form action="/journalist/edit/{{ journalist.id }}/" method="POST">
+{% else %}
+<form action="/journalist/new/" method="POST">
+{% endif %}
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Submit" />
+</form>
+{% endblock content %}

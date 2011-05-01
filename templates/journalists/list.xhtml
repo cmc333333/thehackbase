@@ -1,0 +1,11 @@
+{% extends "journalists/content.xhtml" %}
+
+{% block title %}Journalists{% endblock %}
+
+{% block content %}
+<ul>
+  {% for j in journalists %}
+    <li><a href="/journalist/view/{{ j.id }}/">{{ j }}</a></li>
+  {% endfor %}
+</ul>
+{% endblock content %}
