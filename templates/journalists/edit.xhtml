@@ -4,9 +4,9 @@
 
 {% block content %}
 {% if journalist.id %}
-<form action="/journalist/edit/{{ journalist.id }}/" method="POST">
+<form action="/journalist/{{ journalist.slug }}/edit/" method="POST">
 {% else %}
-<form action="/journalist/new/" method="POST">
+<form action="/journalists/new/" method="POST">
 {% endif %}
   {% csrf_token %}
   {{ form.as_p }}

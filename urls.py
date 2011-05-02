@@ -9,7 +9,10 @@ urlpatterns = patterns('',
 )
 
 urlpatterns += patterns('journalists.views',
-    ('^journalist/new/$', 'editJournalist'),
-    ('^journalist/list/$', 'listJournalists'),
-    ('^journalist/edit/(?P<journalist_id>\d+)/$', 'editJournalist')
+    ('^journalists/list/$', 'listJournalists'),
+    ('^journalists/new/$', 'editJournalist'),
+    ('^journalist/(?P<id>\d+)/edit/$', 'editJournalist'),
+    ('^journalist/(?P<slug>.+)/edit/$', 'editJournalist'),
+    ('^journalist/(?P<id>\d+)/$', 'viewJournalist'),
+    ('^journalist/(?P<slug>.+)/$', 'viewJournalist'),
 )

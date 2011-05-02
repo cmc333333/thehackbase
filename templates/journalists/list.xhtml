@@ -5,7 +5,7 @@
 {% block content %}
 <ul>
   {% for j in journalists %}
-    <li><a href="/journalist/view/{{ j.id }}/">{{ j }}</a></li>
+    <li><a href="/journalist/{{ j.slug }}/">{{ j }}</a></li>
   {% endfor %}
 </ul>
 {% endblock content %}

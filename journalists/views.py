@@ -3,16 +3,19 @@ from django.core.context_processors import csrf
 from journalists.forms import JournalistForm
 from journalists.models import Journalist
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.template import RequestContext
 
 def listJournalists(request):
-  params = {"journalists": Journalist.objects.order_by('normalized_name') }
+  params = {"journalists": Journalist.objects.order_by('slug') }
   return render_to_response('journalists/list.xhtml', params, context_instance=RequestContext(request))
 
-def editJournalist(request, journalist_id=None):
-  if journalist_id:
-    instance = get_object_or_404(Journalist, pk=journalist_id)
+def editJournalist(request, id=None, slug=None):
+  if id:
+    instance = get_object_or_404(Journalist, pk=id)
+    title = str(instance)
+  elif slug:
+    instance = get_object_or_404(Journalist, slug=slug)
     title = str(instance)
   else:
     instance = Journalist()
@@ -22,7 +25,7 @@ def editJournalist(request, journalist_id=None):
     if form.is_valid():
       instance = form.save()
       messages.success(request, "Saved")
-      return HttpResponseRedirect('/journalist/view/' + str(instance.id) +'/')
+      return HttpResponseRedirect('/journalist/' + str(instance.slug) +'/')
   else:
     form = JournalistForm(instance=instance)
 
@@ -30,3 +33,17 @@ def editJournalist(request, journalist_id=None):
   params.update(csrf(request))
 
   return render_to_response('journalists/edit.xhtml', params, context_instance=RequestContext(request))
+
+def viewJournalist(request, id=None, slug=None):
+  if id:
+    instance = get_object_or_404(Journalist, pk=id)
+    title = str(instance)
+  elif slug:
+    instance = get_object_or_404(Journalist, slug=slug)
+    title = str(instance)
+  else:
+    raise Http404
+
+  params = {'title': title, 'journalist': instance}
+
+  return render_to_response('journalists/profile.xhtml', params, context_instance=RequestContext(request))
