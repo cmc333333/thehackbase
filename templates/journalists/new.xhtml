@@ -1,0 +1,12 @@
+{% extends "journalists/content.xhtml" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<form action="/journalists/new/" method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Submit" />
+</form>
+{% endblock content %}
+

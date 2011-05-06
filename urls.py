@@ -10,9 +10,11 @@ urlpatterns = patterns('',
 
 urlpatterns += patterns('journalists.views',
     ('^journalists/list/$', 'listJournalists'),
-    ('^journalists/new/$', 'editJournalist'),
-    ('^journalist/(?P<id>\d+)/edit/$', 'editJournalist'),
-    ('^journalist/(?P<slug>.+)/edit/$', 'editJournalist'),
+    ('^journalists/new/$', 'newJournalist'),
     ('^journalist/(?P<id>\d+)/$', 'viewJournalist'),
-    ('^journalist/(?P<slug>.+)/$', 'viewJournalist'),
+    ('^journalist/(?P<slug>[a-z-]+)/$', 'viewJournalist'),
+    ('^journalist/(?P<id>\d+)/edit/$', 'editJournalist'),
+    ('^journalist/(?P<slug>[a-z-]+)/edit/$', 'editJournalist'),
+    ('^journalist/(?P<id>\d+)/publishing/edit/$', 'editPublishing'),
+    ('^journalist/(?P<slug>[a-z-]+)/publishing/edit/$', 'editPublishing')
 )

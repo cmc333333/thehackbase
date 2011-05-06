@@ -1,0 +1,22 @@
+{% extends "journalists/profile.xhtml" %}
+
+{% block publishingEdit %}
+<h2>Publishing History <a href="/journalist/{{ journalist.slug}}/edit/">[Cancel]</a></h2>
+<form action="/journalist/{{ journalist.slug }}/publishing/edit/" method="POST">
+  {% csrf_token %}
+  <ul class="plus-minus-form">
+    <li>
+      <input type="hidden" name="j2p_id" />
+      <select name="company">
+        <option>NYT</option>
+        <option>NPR</option>
+      </select>
+      <input type="text" name="start_date" />
+      <input type="text" name="end_date" />
+    </li>
+  </ul>
+  <input type="submit" value="Submit" style="display: block;" />  
+</form>
+{% endblock %}
+
+{% block extrajs %}<script type="text/javascript" src="/static/js/plusminus.js"></script>{% endblock %}

@@ -1,15 +1,13 @@
-{% extends "journalists/content.xhtml" %}
+{% extends "journalists/profile.xhtml" %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block h1 %}
+  {{ journalist }} <a href="/journalist/{{ journalist.slug }}/">[Cancel]</a>
+{% endblock %}
 
-{% block content %}
-{% if journalist.id %}
+{% block journalistEdit %}
 <form action="/journalist/{{ journalist.slug }}/edit/" method="POST">
-{% else %}
-<form action="/journalists/new/" method="POST">
-{% endif %}
   {% csrf_token %}
   {{ form.as_p }}
   <input type="submit" value="Submit" />
 </form>
-{% endblock content %}
+{% endblock %}
