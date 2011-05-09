@@ -59,4 +59,4 @@ def editJournalist(request, id=None, slug=None):
 def editPublishing(request, id=None, slug=None):
   instance = journalistOr404(id, slug)
 
-  return profile(request, instance, {}, 'publishing-history')
+  return profile(request, instance, {"publishers": Publisher.objects.order_by('name')}, 'publishing-history')

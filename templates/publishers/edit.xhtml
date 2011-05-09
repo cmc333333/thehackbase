@@ -1,0 +1,15 @@
+{% extends "journalists/content.xhtml" %}
+
+{% block title %}{% if publisher.id %}{{ publisher.name }}{% else %}New Publisher{% endif %}{% endblock %}
+
+{% block content %}
+{% if publisher.id %}
+<form action="/publisher/{{ publisher.slug }}/edit/" method="POST">
+{% else %}
+<form action="/publishers/new/" method="POST">
+{% endif %}
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Submit" />
+</form>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "journalists/content.xhtml" %}
+
+{% block title %}Publishers{% endblock %}
+
+{% block content %}
+<ul>
+  {% for p in publishers %}
+    <li><a href="/publisher/{{ p.slug }}/edit/">{{ p }}</a></li>
+  {% endfor %}
+</ul>
+{% endblock content %}
+

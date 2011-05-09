@@ -1,6 +1,7 @@
 from django.db import models
 from djangotoolbox.fields import ListField
 from django.template.defaultfilters import slugify
+from publishers.models import Publisher
 
 # Create your models here.
 class Journalist(models.Model):
@@ -40,16 +41,6 @@ class Journalist(models.Model):
         index = index + 1
 
     return super(Journalist, self).save()
-
-class Publisher(models.Model):
-  name = models.CharField(max_length=200)
-  
-  city = models.CharField(max_length=100)
-  state = models.CharField(max_length=100)
-  country = models.CharField(max_length=100)
-
-  def __unicode__(self):
-    return self.name
 
 class Journalist2Publisher(models.Model):
   journalist = models.ForeignKey(Journalist)
