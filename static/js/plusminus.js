@@ -1,12 +1,13 @@
-jQuery(document).ready(function() {
-  jQuery("ul.plus-minus-form").each(function() {
+function createPlusMinus(root, prefix) {
+  if (!prefix)
+    prefix = "form";
+  jQuery(root).each(function() {
     var ul = jQuery(this);
     var canonical = jQuery(ul.children("li")[0]);
-    var canonicalChildren = canonical.children();
+    var canonicalChildren = canonical.find('input, textarea, select, label');
     canonical.hide();
 
-    var numEntries = jQuery('<input type="hidden" name="number_entries" value="0" />');
-    numEntries.insertBefore(ul);
+    var numEntries = jQuery('#id_' + prefix + '-TOTAL_FORMS');
 
     var addText = jQuery('<a href="#">Add Entry</a>');
 
@@ -15,11 +16,17 @@ jQuery(document).ready(function() {
       var lis = ul.children()
       lis.each(function() {
         var li = jQuery(this);
-        var liChildren = li.children()
+        var liChildren = li.find('input, textarea, select, label')
         if (index != 0) {
           var elIndex = 0;
           canonicalChildren.each(function() {
-            liChildren[elIndex].name = this.name + "_" + index;
+            var child = jQuery(this)
+            if (child.attr('for'))
+              jQuery(liChildren[elIndex]).attr('for', child.attr('for').replace('__prefix__', index));
+            if (child.attr('name'))
+              jQuery(liChildren[elIndex]).attr('name', child.attr('name').replace('__prefix__', index));
+            if (child.attr('id'))
+              jQuery(liChildren[elIndex]).attr('id', child.attr('id').replace('__prefix__', index));
             elIndex++;
           });
         }
@@ -39,7 +46,7 @@ jQuery(document).ready(function() {
       addText.hide();
       numEntries.val(parseInt(numEntries.val()) + 1);
       var toAdd = canonical.clone();
-      toAdd.children().each(function() {
+      toAdd.find('input, textarea, select').each(function() {
         this.name = this.name + "_" + numEntries.val();
       });
       jQuery('<input type="button" value="-" />').click(function() { subEntry(toAdd); }).appendTo(toAdd);
@@ -53,4 +60,4 @@ jQuery(document).ready(function() {
     });
     addText.insertBefore(ul);
   });
-});
+}

@@ -4,20 +4,20 @@
 <h2>Publishing History <a href="/journalist/{{ journalist.slug}}/">[Cancel]</a></h2>
 <form action="/journalist/{{ journalist.slug }}/publishing/edit/" method="POST">
   {% csrf_token %}
+  {{ formset.management_form }}
   <ul class="plus-minus-form">
     <li>
-      <input type="hidden" name="j2p_id" />
-      <select name="publisher">
-        {% for publisher in publishers %}
-          <option value="{{ publisher.id }}">{{ publisher.name }}</option>
-        {% endfor %}
-      </select>
-      Start: <input type="text" name="start_date" size="10" />
-      End: <input type="text" name="end_date" size="10" />
+      {{ form.j2p_id }}
+      <label for="id_{{ form.prefix }}-publisher">{{ form.publisher.label }}</label> {{ form.publisher }}
+      <label for="id_{{ form.prefix }}-start">{{ form.start.label }} </label> {{ form.start }}
+      <label for="id_{{ form.prefix }}-end">{{ form.end.label }} </label> {{ form.end }}
     </li>
   </ul>
   <input type="submit" value="Submit" style="display: block;" />  
 </form>
 {% endblock %}
 
-{% block extrajs %}<script type="text/javascript" src="/static/js/plusminus.js"></script>{% endblock %}
+{% block extrajs %}<script type="text/javascript" src="/static/js/plusminus.js"></script>
+<script type="text/javascript">
+  jQuery(document).ready(function() { createPlusMinus('ul.plus-minus-form', 'pub'); });
+</script>{% endblock %}

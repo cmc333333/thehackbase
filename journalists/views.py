@@ -1,6 +1,7 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.core.context_processors import csrf
 from journalists.forms import *
+from django.forms.formsets import formset_factory
 from journalists.models import *
 from django.contrib import messages
 from django.http import HttpResponseRedirect, Http404
@@ -58,5 +59,7 @@ def editJournalist(request, id=None, slug=None):
 
 def editPublishing(request, id=None, slug=None):
   instance = journalistOr404(id, slug)
+  formset = formset_factory(Journalist2PublisherForm, extra=0)(prefix="pub")
 
-  return profile(request, instance, {"publishers": Publisher.objects.order_by('name')}, 'publishing-history')
+  return profile(request, instance, {"form": formset.empty_form, "formset": formset, 
+    "publishers": Publisher.objects.order_by('name')}, 'publishing-history')
