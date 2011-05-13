@@ -1,7 +1,7 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.core.context_processors import csrf
 from journalists.forms import *
-from django.forms.formsets import formset_factory
+from django.forms.models import modelformset_factory
 from journalists.models import *
 from django.contrib import messages
 from django.http import HttpResponseRedirect, Http404
@@ -28,7 +28,8 @@ def profile(request, journalist, params = {}, template="profile"):
 
 def viewJournalist(request, id=None, slug=None):
   instance = journalistOr404(id, slug)
-  return profile(request, instance)
+  params = {'publishers': Journalist2Publisher.objects.filter(journalist = instance)}
+  return profile(request, instance, params)
 
 def newJournalist(request):
   instance = Journalist()
@@ -59,7 +60,24 @@ def editJournalist(request, id=None, slug=None):
 
 def editPublishing(request, id=None, slug=None):
   instance = journalistOr404(id, slug)
-  formset = formset_factory(Journalist2PublisherForm, extra=0)(prefix="pub")
+  existing = instance.journalist2publisher_set.all()
+  factory = modelformset_factory(Journalist2Publisher, Journalist2PublisherForm, extra=0)
+  if request.method == 'POST':
+    formset = factory(request.POST, prefix="pub")
+    if (formset.is_valid()):
+      existing_ids = map(lambda x: x.id, existing)
+      links = formset.save(commit=False)
+      for link in links:
+        link.journalist = instance
+        if link.id and not (link.id in existing_ids):
+          continue
+        link.save()
+        existing_ids.remove(link.id)
+      # Delete the others
+      Journalist2Publisher.objects.filter(id__in=existing_ids).delete()
+      return HttpResponseRedirect('/journalist/' + str(instance.slug) + '/')
+  else:
+    formset = factory(prefix="pub", queryset=existing)
 
-  return profile(request, instance, {"form": formset.empty_form, "formset": formset, 
-    "publishers": Publisher.objects.order_by('name')}, 'publishing-history')
+  return profile(request, instance, {"form": formset.empty_form, "formset": formset 
+    }, 'publishing-history')

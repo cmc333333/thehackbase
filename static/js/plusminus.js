@@ -12,25 +12,23 @@ function createPlusMinus(root, prefix) {
     var addText = jQuery('<a href="#">Add Entry</a>');
 
     var renumberEntries = function() {
-      var index = 0;
       var lis = ul.children()
-      lis.each(function() {
-        var li = jQuery(this);
-        var liChildren = li.find('input, textarea, select, label')
+      lis.each(function(index) {
         if (index != 0) {
+          var li = jQuery(this);
+          var liChildren = li.find('input, textarea, select, label')
           var elIndex = 0;
           canonicalChildren.each(function() {
             var child = jQuery(this)
             if (child.attr('for'))
-              jQuery(liChildren[elIndex]).attr('for', child.attr('for').replace('__prefix__', index));
+              jQuery(liChildren[elIndex]).attr('for', child.attr('for').replace('__prefix__', index -1));
             if (child.attr('name'))
-              jQuery(liChildren[elIndex]).attr('name', child.attr('name').replace('__prefix__', index));
+              jQuery(liChildren[elIndex]).attr('name', child.attr('name').replace('__prefix__', index -1));
             if (child.attr('id'))
-              jQuery(liChildren[elIndex]).attr('id', child.attr('id').replace('__prefix__', index));
+              jQuery(liChildren[elIndex]).attr('id', child.attr('id').replace('__prefix__', index -1));
             elIndex++;
           });
         }
-        index++;
       });
     }
 
@@ -58,6 +56,21 @@ function createPlusMinus(root, prefix) {
     addText.click(function() {
       addEntry(canonical);
     });
-    addText.insertBefore(ul);
+
+    //  add +/- to existing entries
+    var existing = false;
+    ul.children().each(function(index) {
+      if (index != 0) {
+        var li = jQuery(this);
+        jQuery('<input type="button" value="-" />').click(function() { subEntry(li); }).appendTo(li);
+        jQuery('<input type="button" value="+" />').click(function() { addEntry(li); }).appendTo(li);
+        existing = true;
+      }
+    });
+    if (existing) {
+      renumberEntries();
+    } else {
+      addText.insertBefore(ul);
+    }
   });
 }

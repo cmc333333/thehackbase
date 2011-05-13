@@ -7,11 +7,19 @@
   {{ formset.management_form }}
   <ul class="plus-minus-form">
     <li>
-      {{ form.j2p_id }}
+      {{ form.id }}
       <label for="id_{{ form.prefix }}-publisher">{{ form.publisher.label }}</label> {{ form.publisher }}
       <label for="id_{{ form.prefix }}-start">{{ form.start.label }} </label> {{ form.start }}
       <label for="id_{{ form.prefix }}-end">{{ form.end.label }} </label> {{ form.end }}
     </li>
+    {% for f in formset %}
+      <li>
+        {{ f.id }}
+        <label for="id_{{ f.prefix }}-publisher">{{ f.publisher.label }}</label> {{ f.publisher }}
+        <label for="id_{{ f.prefix }}-start">{{ f.start.label }} </label> {{ f.start }}
+        <label for="id_{{ f.prefix }}-end">{{ f.end.label }} </label> {{ f.end }}
+      </li>
+    {% endfor %}
   </ul>
   <input type="submit" value="Submit" style="display: block;" />  
 </form>

@@ -24,9 +24,9 @@
       <h2>Publishing History <a href="publishing/edit/">[Edit]</a></h2>
     {% endif %}
     <ul>
-      <li>New York Times    2010-2011</li>
-      <li>Chicago Tribune   2008-2010</li>
-      <li>April's Blog      2005-current</li>
+      {% for p in publishers %}
+        <li>{{ p.publisher }} {{ p.start.year }}-{{ p.end.year }}</li>
+      {% endfor %}
     </ul>
   {% endblock %}
 
