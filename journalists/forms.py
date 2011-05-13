@@ -18,3 +18,11 @@ class Journalist2PublisherForm(ModelForm):
 class PublisherForm(ModelForm):
   class Meta:
     model = Publisher
+
+class WorkForm(ModelForm):
+  class Meta:
+    model = Work
+    exclude = ('journalist')
+    widgets = {
+      'date': SelectDateWidget(),
+    }

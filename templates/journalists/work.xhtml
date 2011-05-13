@@ -1,0 +1,34 @@
+{% extends "journalists/profile.xhtml" %}
+
+{% block worksEdit %}
+<h2>List of Works <a href="/journalist/{{ journalist.slug}}/">[Cancel]</a></h2>
+<form action="/journalist/{{ journalist.slug }}/work/edit/" method="POST">
+  {% csrf_token %}
+  {{ formset.management_form }}
+  <ul class="plus-minus-form">
+    {% with form=formset.empty_form %}
+      <li>
+        {{ form.id }}
+        <label for="id_{{ form.prefix }}-title">{{ form.title.label }}</label> {{ form.title }}
+        <label for="id_{{ form.prefix }}-date">{{ form.date.label }} </label> {{ form.date }}
+        <label for="id_{{ form.prefix }}-permalink">{{ form.permalink.label }} </label> {{ form.permalink }}
+      </li>
+    {% endwith %}
+    {% for form in formset %}
+      <li>
+        {{ form.id }}
+        <label for="id_{{ form.prefix }}-title">{{ form.title.label }}</label> {{ form.title }}
+        <label for="id_{{ form.prefix }}-date">{{ form.date.label }} </label> {{ form.date }}
+        <label for="id_{{ form.prefix }}-permalink">{{ form.permalink.label }} </label> {{ form.permalink }}
+      </li>
+    {% endfor %}
+  </ul>
+  <input type="submit" value="Submit" style="display: block;" />  
+</form>
+{% endblock %}
+
+{% block extrajs %}<script type="text/javascript" src="/static/js/plusminus.js"></script>
+<script type="text/javascript">
+  jQuery(document).ready(function() { createPlusMinus('ul.plus-minus-form', 'work'); });
+</script>{% endblock %}
+

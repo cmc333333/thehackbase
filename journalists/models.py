@@ -53,3 +53,13 @@ class Journalist2Publisher(models.Model):
 
   def __unicode__(self):
     return "%s @ %s" % (self.journalist, self.publisher)
+
+class Work(models.Model):
+  journalist = models.ForeignKey(Journalist)
+
+  title = models.CharField(max_length=200)
+  date = models.DateField()
+
+  permalink = models.CharField(max_length=200)
+  def __unicode__(self):
+    return self.title

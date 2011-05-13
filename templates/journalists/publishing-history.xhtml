@@ -6,18 +6,20 @@
   {% csrf_token %}
   {{ formset.management_form }}
   <ul class="plus-minus-form">
-    <li>
-      {{ form.id }}
-      <label for="id_{{ form.prefix }}-publisher">{{ form.publisher.label }}</label> {{ form.publisher }}
-      <label for="id_{{ form.prefix }}-start">{{ form.start.label }} </label> {{ form.start }}
-      <label for="id_{{ form.prefix }}-end">{{ form.end.label }} </label> {{ form.end }}
-    </li>
-    {% for f in formset %}
+    {% with form=formset.empty_form %}
       <li>
-        {{ f.id }}
-        <label for="id_{{ f.prefix }}-publisher">{{ f.publisher.label }}</label> {{ f.publisher }}
-        <label for="id_{{ f.prefix }}-start">{{ f.start.label }} </label> {{ f.start }}
-        <label for="id_{{ f.prefix }}-end">{{ f.end.label }} </label> {{ f.end }}
+        {{ form.id }}
+        <label for="id_{{ form.prefix }}-publisher">{{ form.publisher.label }}</label> {{ form.publisher }}
+        <label for="id_{{ form.prefix }}-start">{{ form.start.label }} </label> {{ form.start }}
+        <label for="id_{{ form.prefix }}-end">{{ form.end.label }} </label> {{ form.end }}
+      </li>
+    {% endwith %}
+    {% for form in formset %}
+      <li>
+        {{ form.id }}
+        <label for="id_{{ form.prefix }}-publisher">{{ form.publisher.label }}</label> {{ form.publisher }}
+        <label for="id_{{ form.prefix }}-start">{{ form.start.label }} </label> {{ form.start }}
+        <label for="id_{{ form.prefix }}-end">{{ form.end.label }} </label> {{ form.end }}
       </li>
     {% endfor %}
   </ul>
